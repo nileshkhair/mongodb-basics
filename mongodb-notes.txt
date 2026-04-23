@@ -1,0 +1,141 @@
+
+****MongoDB****
+======================================================================================================================================
+ 
+ # CREATE DB
+  use db101
+ 
+ # create collection("collection_name") 
+ 
+ # show collections  ----> to show collections
+ 
+====================================================================================================================================== 
+ 
+ # INSERT ONE  DOCUMENTS
+
+ db.products.insertOne({name:"samsung galaxy",price:85000,color:'silver', models:['Galaxy S24', 'Galaxy S24+', "Galaxy S24 Ultra"]})
+ 
+ # INSERT MULTIPLE DOCUMENTS
+
+ db.products.insertMany([
+  {
+    name: "Sony Xperia",
+    price: 95000,
+    color: "black",
+    models: ["Xperia 1 V", "Xperia 5 V"]
+  },
+  {
+    name: "OnePlus 12",
+    price: 65000,
+    color: "emerald",
+    models: ["12", "12R"]
+  }
+]);
+
+======================================================================================================================================
+ 
+# find by name ------> db.products.find({name:"one plus"})
+
+====================================================================================================================================== 
+OPERATORS
+
+ $eq --------> db.products.find({name:{$eq:"dell"}})
+ $ne --------> db.products.find({name:{$ne:"dell"}}) 
+ $gt --------> db.products.find({price:{$gt:10000}})
+ $gte -------> db.products.find({price:{$gte:16600}})
+
+
+#syntax -------->db.collection_name.find({$and:[{condition1},{condition2},{condition3}]})
+
+ $and -------> db.products.find({$and:[{price:{$gte:17000}},{name:{$ne:"asus"}}]})  
+ $or  -------> db.products.find({$or:[{price:{$gte:17000}},{name:{$ne:"asus"}}]})
+
+ $not 
+ #syntax --------> db.collection_name.find({field:{$not:{condition1}}})
+                  
+				   db.products.find({name:{$not:{$eq:"dell"}}})
+
+ $nor
+ #syntax --------> db.products.find({$nor:[{condition1},{condition2}]});
+                  
+				   db.products.find({$nor:[{name:"one plus"},{price:47000}]});
+
+ $set  --------> db.products.updateOne({name:'iphone'},{$set:{price:130000}})				  
+
+ $rename -----> db.products.updateOne({name:'iphone'},{$rename:{models: "model"}})
+
+======================================================================================================================================
+10. Array operator		
+                 db.products.insertOne({name:"iphone",price:120000,color:'black', models:['iphone 16', 'iphone 16 plus','iphone 16 pro', 'iphone 16 pro max']})		  
+                 add model to exiting collection 
+				 db.products.updateOne({_id:ObjectId('69df2478d05982c5173682d1')},{$set:{model:["inspiron","XPS","latitude"]}})
+				  
+				  
+======================================================================================================================================
+
+db.users.insertMany([
+  {
+    _id: 1,
+    name: "John",
+    age: 30,
+    gender: "male"
+  },
+  {
+    _id: 2,
+    name: "Alice",
+    age: 25,
+    gender: "female"
+  },
+  {
+    _id: 3,
+    name: "Raj",
+    age: 28,
+    gender: "male"
+  },
+  {
+    _id: 4,
+    name: "Priya",
+    age: 32,
+    gender: "female"
+  },
+  {
+    _id: 5,
+    name: "Amit",
+    age: 35,
+    gender: "male"
+  }
+]);
+
+
+db.addresses.insertMany([
+  {
+    _id: 1,
+    city: "Nashik",
+    country: "India"
+  },
+  {
+    _id: 2,
+    city: "Mumbai",
+    country: "India"
+  },
+  {
+    _id: 3,
+    city: "Delhi",
+    country: "India"
+  },
+  {
+    _id: 4,
+    city: "Bangalore",
+    country: "India"
+  },
+  {
+    _id: 5,
+    city: "Pune",
+    country: "India"
+  }
+])
+
+
+# db.addresses.updateOne({_id:1},{$set:{userId: 1}})
+
+# db.users.aggregate([{$lookup:{from: "addresses", localField: "_id", foreignField: "userId", as:"addressInfo"} }] )
